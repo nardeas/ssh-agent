@@ -18,7 +18,7 @@ Launch everything:
 ./run.sh
 ```
 
-Stop ssh-agent and remove your keys:
+Remove your keys from ssh-agent and stop container:
 
 ```
 ./run.sh -s
@@ -81,7 +81,7 @@ Here's an example how to run a Ubuntu container that uses the ssh authentication
 docker run -it --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket ubuntu:latest /bin/bash
 ```
 
-#### 4. Delete all ssh keys from ssh-agent
+### Deleting keys from the container
 
 Run a temporary container and delete all known keys from ssh-agent:
 
