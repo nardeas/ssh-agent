@@ -42,7 +42,7 @@ docker run -d --name=ssh-agent docker-ssh-agent:latest
 Run a temporary container with volume mounted from host that includes your SSH keys. SSH key id_rsa will be added to ssh-agent (you can replace id_rsa with your key name):
 
 ```
-docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/root/.ssh -it docker-ssh-agent:latest ssh-add /root/.ssh/id_rsa
+docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/.ssh -it docker-ssh-agent:latest ssh-add /root/.ssh/id_rsa
 ```
 
 The ssh-agent container is now ready to use.
