@@ -64,15 +64,23 @@ case "$1" in
     shift # remove argument from array
   fi
 
-  # Calling ssh-add. This should handle all cases.
-  _command="ssh-add $ssh_key_path $@"
-  debug_msg "Executing: $_command"
+  for var in "$@"
+  do
+  	if [ -f $var ]; then
+	  if [ -n "$SSH_PASSWD_SECRET_FILE" ]; then
+		  _command="/ssh-add-pass.sh $var $SSH_PASSWD_SECRET_FILE "
+	  else
+		  _command="ssh-add $var"
+	  fi
+	  debug_msg "Executing: $_command"
 
-  # When $key_path is empty, ssh-agent will be looking for both id_rsa and id_dsa in the home directory.
-  # NOTE: We do a sed hack here to strip out '/root/.ssh' from the key path in the output from ssh-add, since this
-  # path may confuse people.
-  # echo "Press ENTER or CTRL+C to skip entering passphrase (if any)."
-  $_command 2>&1 0>&1 | sed 's/\/root\/.ssh\///g'
+	  # When $key_path is empty, ssh-agent will be looking for both id_rsa and id_dsa in the home directory.
+	  # NOTE: We do a sed hack here to strip out '/root/.ssh' from the key path in the output from ssh-add, since this
+	  # path may confuse people.
+	  # echo "Press ENTER or CTRL+C to skip entering passphrase (if any)."
+	  $_command 2>&1 0>&1 | sed 's/\/root\/.ssh\///g'
+	fi
+  done
 
   # Return first command exit code
   exit ${PIPESTATUS[0]}
