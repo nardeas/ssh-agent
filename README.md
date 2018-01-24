@@ -1,5 +1,8 @@
 # Docker SSH Agent
 
+[![Pulls](https://img.shields.io/docker/pulls/nardeas/ssh-agent.svg?style=flat-square)](https://img.shields.io/docker/pulls/nardeas/ssh-agent.svg?style=flat-square)
+[![Size](https://img.shields.io/imagelayers/image-size/nardeas/ssh-agent/latest.svg?style=flat-square)](https://img.shields.io/imagelayers/image-size/nardeas/ssh-agent/latest.svg?style=flat-square)
+
 Lets you store your SSH authentication keys in a dockerized ssh-agent that can provide the SSH authentication socket for other containers. Works in OSX and Linux environments.
 
 ## Why?
