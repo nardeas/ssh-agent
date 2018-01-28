@@ -1,7 +1,7 @@
 # Docker SSH Agent
 
-[![Pulls](https://img.shields.io/docker/pulls/nardeas/ssh-agent.svg?style=flat-square)](https://img.shields.io/docker/pulls/nardeas/ssh-agent.svg?style=flat-square)
-[![Size](https://img.shields.io/imagelayers/image-size/nardeas/ssh-agent/latest.svg?style=flat-square)](https://img.shields.io/imagelayers/image-size/nardeas/ssh-agent/latest.svg?style=flat-square)
+[![Pulls](https://img.shields.io/docker/pulls/nardeas/ssh-agent.svg)](https://img.shields.io/docker/pulls/nardeas/ssh-agent.svg?style=flat-square)
+[![Size](https://images.microbadger.com/badges/image/nardeas/ssh-agent.svg)](https://microbadger.com/images/nardeas/ssh-agent "Get your own image badge on microbadger.com")
 
 Lets you store your SSH authentication keys in a dockerized ssh-agent that can provide the SSH authentication socket for other containers. Works in OSX and Linux environments.
 
