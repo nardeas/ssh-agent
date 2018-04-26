@@ -1,6 +1,6 @@
-# Docker Image for SSH agent container. Last revision 18.10.2016
+# Docker Image for SSH agent container. Last revision 26.4.2018
 #
-# Copyright (c) Andreas Urbanski, 2016
+# Copyright (c) Andreas Urbanski, 2018
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,7 @@ RUN apk add --no-cache \
 
 # Copy entrypoint script to container
 COPY entry.sh /entry.sh
+RUN chmod a+x /entry.sh
 
 # Setup environment variables; export SSH_AUTH_SOCK from socket directory
 ENV SOCKET_DIR /.ssh-agent

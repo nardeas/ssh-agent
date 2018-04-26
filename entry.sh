@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) Andreas Urbanski, 2016
+# Copyright (c) Andreas Urbanski, 2018
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
