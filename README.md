@@ -21,7 +21,27 @@ docker pull nardeas/ssh-agent
 
 ### Quickstart
 
-To get up and running super fast, run the `run.sh` script which will build the images for you, launch the ssh-agent and add your keys. If your keys are password protected (hopefully) you will just need to input your passphrase.
+If you don't want to build your own images, here's a 3-step guide:
+
+1\. Run agent
+```
+docker run -d --name=ssh-agent nardeas/ssh-agent
+```
+
+2\. Add your keys
+```
+docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/.ssh -it nardeas/ssh-agent ssh-add /root/.ssh/id_rsa
+```
+
+3\. Now run your actual container:
+
+```
+docker run -it --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket ubuntu:latest /bin/bash
+```
+
+**Run script**
+
+You can run the `run.sh` script which will build the images for you, launch the ssh-agent and add your keys. If your keys are password protected (hopefully) you will just need to input your passphrase.
 
 Launch everything:
 
@@ -34,6 +54,7 @@ Remove your keys from ssh-agent and stop container:
 ```
 ./run.sh -s
 ```
+
 ### Step by step
 
 #### 0. Build
