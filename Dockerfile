@@ -28,7 +28,11 @@ RUN apk add --no-cache \
 	bash \
 	openssh \
 	socat \
+	expect \
 	&& rm -rf /var/cache/apk/*
+
+# Copy expect script
+COPY ssh-add-pass.sh /ssh-add-pass.sh
 
 # Copy entrypoint script to container
 COPY entry.sh /entry.sh
