@@ -28,18 +28,27 @@ cyan='\033[0;36m'
 red='\033[0;31m'
 nc='\033[0m'
 
+# To override the default docker command e.g. to use podman
+# export the following environment variable
+docker=${docker:-docker}
+
+# To override the default and use the docker hub image,
+# uncomment or export the following environment variable
+# N.B. you will need to have previously done a docker pull of the image
+# image=nardeas/ssh-agent
+
 # Find image id
-image=$(docker images|grep docker-ssh-agent|awk '{print $3}')
+image=$($docker images|grep ${image:-docker-ssh-agent}|awk '{print $1}')
 
 # Find agent container id
-id=$(docker ps -a|grep ssh-agent|awk '{print $1}')
+id=$($docker ps -a|grep ssh-agent|awk '{print $1}')
 
 # Stop command
 if [ "$1" == "-s" ] && [ $id ]; then
   echo -e "Removing ssh-keys..."
-  docker run --rm --volumes-from=ssh-agent -it docker-ssh-agent:latest ssh-add -D
+  $docker run --rm --volumes-from=ssh-agent -it ${image} ssh-add -D
   echo -e "Stopping ssh-agent container..."
-  docker rm -f $id
+  $docker rm -f $id
   exit
 fi
 
@@ -47,21 +56,21 @@ fi
 if [ -z $image ]; then
   echo -e "${bold}The image for docker-ssh-agent has not been built.${nc}"
   echo -e "Building image..."
-  docker build -t docker-ssh-agent:latest -f Dockerfile .
+  $docker build -t docker-ssh-agent:latest -f Dockerfile .
   echo -e "${cyan}Image built.${nc}"
 fi
 
-# If container is already running, exit.
+# If container is already present, exit.
 if [ $id ]; then
-  echo -e "A container named 'ssh-agent' is already running."
-  echo -e "Do you wish to stop it? (y/N): "
+  echo -e "A container named 'ssh-agent' is already present."
+  echo -e "Do you wish to stop and remove it? (y/N): "
   read input
 
   if [ "$input" == "y" ]; then
     echo -e "Removing SSH keys..."
-    docker run --rm --volumes-from=ssh-agent -it docker-ssh-agent:latest ssh-add -D
+    $docker run --rm --volumes-from=ssh-agent -it ${image} ssh-add -D
     echo -e "Stopping ssh-agent container..."
-    docker rm -f $id
+    $docker rm -f $id
     echo -e "${red}Stopped.${nc}"
   fi
 
@@ -70,9 +79,9 @@ fi
 
 # Run ssh-agent
 echo -e "${bold}Launching ssh-agent container...${nc}"
-docker run -d --name=ssh-agent docker-ssh-agent:latest
+$docker run -d --name=ssh-agent ${image}
 
 echo -e "Adding your ssh keys to the ssh-agent container..."
-docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/.ssh -it docker-ssh-agent:latest ssh-add /root/.ssh/id_rsa
+$docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/.ssh:ro -it ${image} ssh-add /root/.ssh/${1:-id_rsa}
 
 echo -e "${green}ssh-agent is now ready to use.${nc}"
